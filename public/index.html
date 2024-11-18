@@ -2,34 +2,50 @@
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
+    <!-- 移动端视口设置，确保响应式布局正常工作 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EasyDrop - 简单的文件传输</title>
+    <title>SoEasyDrop - 简单的文件传输</title>
+    <!-- 引入样式文件 -->
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- 主容器 -->
     <div class="container">
+        <!-- 文件拖拽和上传区域 -->
         <div class="drop-zone" id="dropZone">
+            <!-- 上传区域内容 -->
             <div class="drop-zone-content">
+                <!-- 云上传图标 SVG -->
                 <svg class="upload-icon" viewBox="0 0 24 24">
                     <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
                 </svg>
+                <!-- 提示文本 -->
                 <p>拖拽文件到这里或点击上传</p>
+                <!-- 隐藏的文件输入框，支持多文件选择 -->
                 <input type="file" id="fileInput" hidden multiple>
             </div>
+            <!-- 重新上传按钮，初始隐藏 -->
             <button id="resetButton" class="reset-button" style="display: none;">
+                <!-- 重置图标 SVG -->
                 <svg class="reset-icon" viewBox="0 0 24 24">
                     <path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/>
                 </svg>
                 重新上传
             </button>
         </div>
+        <!-- 二维码和文件信息显示区域，初始隐藏 -->
         <div class="qr-section" id="qrSection" style="display: none;">
+            <!-- 二维码容器 -->
             <div id="qrcode"></div>
+            <!-- 扫码提示文本 -->
             <p class="share-text">扫描二维码下载文件</p>
+            <!-- 文件信息显示区域 -->
             <div class="file-info" id="fileInfo"></div>
         </div>
     </div>
+    <!-- 引入二维码生成库 -->
     <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+    <!-- 引入主应用脚本 -->
     <script src="app.js"></script>
 </body>
 </html> 

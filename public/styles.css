@@ -1,9 +1,11 @@
+/* 全局变量定义 */
 :root {
-    --primary-color: #007AFF;
-    --background-color: #F5F5F7;
-    --border-color: #D1D1D6;
+    --primary-color: #007AFF;    /* 主题色 */
+    --background-color: #F5F5F7; /* 背景色 */
+    --border-color: #D1D1D6;     /* 边框色 */
 }
 
+/* 基础样式设置 */
 body {
     margin: 0;
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
@@ -14,6 +16,7 @@ body {
     justify-content: center;
 }
 
+/* 主容器样式 */
 .container {
     max-width: 800px;
     width: 90%;
@@ -23,6 +26,7 @@ body {
     flex-direction: column;
 }
 
+/* 拖拽区域样式 */
 .drop-zone {
     position: relative;
     min-height: 200px;
@@ -41,15 +45,18 @@ body {
     overflow: hidden;
 }
 
+/* 拖拽区域悬停效果 */
 .drop-zone:hover {
     border-color: var(--primary-color);
 }
 
+/* 拖拽过程中的样式 */
 .drop-zone.drag-over {
     background: rgba(0, 122, 255, 0.1);
     border-color: var(--primary-color);
 }
 
+/* 上传图标样式 */
 .upload-icon {
     width: 64px;
     height: 64px;
@@ -57,11 +64,13 @@ body {
     margin-bottom: 1rem;
 }
 
+/* 二维码显示区域样式 */
 .qr-section {
     margin-top: 2rem;
     text-align: center;
 }
 
+/* 二维码容器样式 */
 #qrcode {
     margin: 0 auto;
     padding: 1rem;
@@ -70,11 +79,13 @@ body {
     display: inline-block;
 }
 
+/* 分享文本样式 */
 .share-text {
     color: #666;
     margin: 1rem 0;
 }
 
+/* 文件信息显示区域样式 */
 .file-info {
     background: white;
     padding: 1rem;
@@ -82,6 +93,7 @@ body {
     margin-top: 1rem;
 }
 
+/* 进度条容器样式 */
 .progress-container {
     width: 100%;
     padding: 4rem 1.5rem 1.5rem 1.5rem;
@@ -92,25 +104,30 @@ body {
     position: relative;
 }
 
+/* 进度条容器滚动条样式 */
 .progress-container::-webkit-scrollbar {
     width: 6px;
 }
 
+/* 进度条容器滚动条轨道样式 */
 .progress-container::-webkit-scrollbar-track {
     background: var(--background-color);
     border-radius: 3px;
 }
 
+/* 进度条容器滚动条滑块样式 */
 .progress-container::-webkit-scrollbar-thumb {
     background: var(--primary-color);
     border-radius: 3px;
     opacity: 0.7;
 }
 
+/* 进度条容器滚动条滑块悬停效果 */
 .progress-container::-webkit-scrollbar-thumb:hover {
     opacity: 1;
 }
 
+/* 进度条容器样式 */
 .progress-wrapper {
     background: white;
     padding: 1rem;
@@ -119,12 +136,14 @@ body {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
+/* 文件名样式 */
 .file-name {
     margin-bottom: 0.5rem;
     font-size: 0.9rem;
     color: #666;
 }
 
+/* 进度条样式 */
 .progress-bar {
     height: 4px;
     background: var(--background-color);
@@ -133,6 +152,7 @@ body {
     position: relative;
 }
 
+/* 进度条填充效果 */
 .progress-bar::after {
     content: '';
     position: absolute;
@@ -144,6 +164,7 @@ body {
     transition: width 0.3s ease;
 }
 
+/* 进度文本样式 */
 .progress-text {
     display: flex;
     justify-content: flex-end;
@@ -154,6 +175,7 @@ body {
     margin-top: 0.25rem;
 }
 
+/* 上传速度样式 */
 .upload-speed {
     color: #666;
     font-size: 0.75rem;
@@ -162,6 +184,7 @@ body {
     border-radius: 10px;
 }
 
+/* 文件成功样式 */
 .file-success {
     display: grid;
     grid-template-columns: minmax(200px, 2fr) 100px 96px auto;
@@ -176,17 +199,20 @@ body {
     border: 1px solid rgba(0, 0, 0, 0.05);
 }
 
+/* 文件成功悬停效果 */
 .file-success:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     border-color: rgba(0, 122, 255, 0.1);
 }
 
+/* 文件名容器样式 */
 .file-name-wrapper {
     position: relative;
     padding: 0.5rem 0;
 }
 
+/* 文件名样式 */
 .file-name {
     margin: 0;
     font-size: 0.95rem;
@@ -197,12 +223,14 @@ body {
     text-overflow: ellipsis;
 }
 
+/* 文件成功子元素样式 */
 .file-success .file-size {
     font-size: 0.85rem;
     color: #666;
     white-space: nowrap;
 }
 
+/* 文件成功子元素样式 */
 .file-success .qr-code {
     width: 80px;
     height: 80px;
@@ -215,18 +243,21 @@ body {
     justify-content: center;
 }
 
+/* 文件成功子元素图片样式 */
 .file-success .qr-code img {
     width: 100%;
     height: 100%;
     object-fit: contain;
 }
 
+/* 操作按钮样式 */
 .action-buttons {
     display: flex;
     gap: 0.75rem;
     justify-content: flex-end;
 }
 
+/* 预览按钮和下载链接样式 */
 .preview-button,
 .action-buttons .download-link {
     display: inline-flex;
@@ -245,26 +276,31 @@ body {
     text-decoration: none;
 }
 
+/* 预览按钮样式 */
 .preview-button {
     background: rgba(0, 122, 255, 0.1);
     color: var(--primary-color);
 }
 
+/* 下载链接样式 */
 .action-buttons .download-link {
     background: var(--primary-color);
     color: white;
 }
 
+/* 预览按钮悬停效果 */
 .preview-button:hover {
     background: rgba(0, 122, 255, 0.15);
     transform: translateY(-1px);
 }
 
+/* 下载链接悬停效果 */
 .action-buttons .download-link:hover {
     background: #0066dd;
     transform: translateY(-1px);
 }
 
+/* 预览图标和下载图标样式 */
 .preview-icon,
 .download-icon {
     width: 18px;
@@ -273,7 +309,9 @@ body {
     flex-shrink: 0;
 }
 
+/* 响应式布局调整 */
 @media (max-width: 768px) {
+    /* 移动端样式调整 */
     .file-success {
         grid-template-columns: 1fr;
         gap: 1rem;
@@ -300,11 +338,13 @@ body {
     }
 }
 
+/* 拖拽区域内容样式 */
 .drop-zone-content {
     width: 100%;
     text-align: center;
 }
 
+/* 重置按钮样式 */
 .reset-button {
     position: absolute;
     top: 1rem;
@@ -325,23 +365,27 @@ body {
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
 }
 
+/* 重置按钮悬停效果 */
 .reset-button:hover {
     background: rgba(0, 122, 255, 0.1);
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
+/* 重置图标样式 */
 .reset-icon {
     width: 16px;
     height: 16px;
     fill: currentColor;
 }
 
+/* 文件名容器悬停效果 */
 .file-name-wrapper:hover .file-name-tooltip {
     opacity: 1;
     transform: translateY(0);
 }
 
+/* 文件名提示样式 */
 .file-name-tooltip {
     position: absolute;
     top: -8px;
@@ -360,6 +404,7 @@ body {
     word-wrap: break-word;
 }
 
+/* 文件名容器悬停效果 */
 .file-name-wrapper:hover .file-name-tooltip {
     opacity: 1;
     visibility: visible;
@@ -380,6 +425,7 @@ body {
     z-index: 1000;
 }
 
+/* 预览内容样式 */
 .preview-content {
     background: white;
     border-radius: 12px;
@@ -391,6 +437,7 @@ body {
     overflow: hidden;
 }
 
+/* 预览头部样式 */
 .preview-header {
     padding: 1rem;
     display: flex;
@@ -399,12 +446,14 @@ body {
     border-bottom: 1px solid var(--border-color);
 }
 
+/* 预览标题样式 */
 .preview-title {
     font-size: 1.1rem;
     color: #333;
     font-weight: 500;
 }
 
+/* 关闭预览按钮样式 */
 .close-preview {
     background: none;
     border: none;
@@ -414,6 +463,7 @@ body {
     padding: 0.5rem;
 }
 
+/* 预览主体样式 */
 .preview-body {
     padding: 1rem;
     overflow: auto;
@@ -421,8 +471,10 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    background: #f8f9fa;
 }
 
+/* 预览主体图片和视频样式 */
 .preview-body img,
 .preview-body video {
     max-width: 100%;
@@ -430,12 +482,14 @@ body {
     object-fit: contain;
 }
 
+/* 预览主体 iframe 样式 */
 .preview-body iframe {
     width: 100%;
     height: 70vh;
     border: none;
 }
 
+/* 预览主体代码样式 */
 .preview-body pre {
     width: 100%;
     white-space: pre-wrap;
@@ -445,6 +499,7 @@ body {
     border-radius: 4px;
 }
 
+/* 无预览样式 */
 .no-preview {
     padding: 2rem;
     text-align: center;
@@ -480,6 +535,7 @@ body {
     box-sizing: border-box;
 }
 
+/* 预览按钮悬停效果 */
 .preview-button:hover,
 .action-buttons .download-link:hover {
     background: rgba(0, 122, 255, 0.2);
@@ -487,6 +543,7 @@ body {
     text-decoration: none;
 }
 
+/* 预览图标和下载图标样式 */
 .preview-icon,
 .download-icon {
     width: 16px;
@@ -497,6 +554,7 @@ body {
 
 /* 响应式调整 */
 @media (max-width: 768px) {
+    /* 移动端样式调整 */
     .preview-content {
         width: 95%;
         height: 95vh;
@@ -509,6 +567,7 @@ body {
         max-height: 60vh;
     }
 
+    /* 重置按钮样式调整 */
     .reset-button {
         top: 0.75rem;
         left: 0.75rem;
@@ -516,6 +575,7 @@ body {
         font-size: 0.85rem;
     }
 
+    /* 进度条容器样式调整 */
     .progress-container {
         padding: 3.5rem 1rem 1rem 1rem;
     }
@@ -530,6 +590,7 @@ body {
     border-radius: 8px;
 }
 
+/* 文本预览代码样式 */
 .text-preview pre {
     margin: 0;
     padding: 1rem;
@@ -565,4 +626,39 @@ body {
     flex: 1;
     padding: 1rem;
     overflow: auto;
+}
+
+/* 添加音频预览样式 */
+.audio-preview {
+    width: 100%;
+    max-width: 500px;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* 音频预览音频样式 */
+.audio-preview audio {
+    width: 100%;
+    margin-bottom: 1rem;
+}
+
+/* 音频预览名称样式 */
+.audio-name {
+    color: #666;
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* 添加视频预览样式 */
+.video-preview {
+    width: 100%;
+    max-width: 800px;
+    text-align: center;
+}
+
+/* 视频预览视频样式 */
+.video-preview video {
+    width: 100%;
+    max-height: 70vh;
+    border-radius: 8px;
 } 
