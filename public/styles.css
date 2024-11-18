@@ -1,0 +1,568 @@
+:root {
+    --primary-color: #007AFF;
+    --background-color: #F5F5F7;
+    --border-color: #D1D1D6;
+}
+
+body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    background: var(--background-color);
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.container {
+    max-width: 800px;
+    width: 90%;
+    padding: 2rem;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.drop-zone {
+    position: relative;
+    min-height: 200px;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: white;
+    border: 2px dashed var(--border-color);
+    border-radius: 16px;
+    padding: 2rem;
+    text-align: center;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.drop-zone:hover {
+    border-color: var(--primary-color);
+}
+
+.drop-zone.drag-over {
+    background: rgba(0, 122, 255, 0.1);
+    border-color: var(--primary-color);
+}
+
+.upload-icon {
+    width: 64px;
+    height: 64px;
+    fill: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.qr-section {
+    margin-top: 2rem;
+    text-align: center;
+}
+
+#qrcode {
+    margin: 0 auto;
+    padding: 1rem;
+    background: white;
+    border-radius: 8px;
+    display: inline-block;
+}
+
+.share-text {
+    color: #666;
+    margin: 1rem 0;
+}
+
+.file-info {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-top: 1rem;
+}
+
+.progress-container {
+    width: 100%;
+    padding: 4rem 1.5rem 1.5rem 1.5rem;
+    max-height: 70vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-color) var(--background-color);
+    position: relative;
+}
+
+.progress-container::-webkit-scrollbar {
+    width: 6px;
+}
+
+.progress-container::-webkit-scrollbar-track {
+    background: var(--background-color);
+    border-radius: 3px;
+}
+
+.progress-container::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 3px;
+    opacity: 0.7;
+}
+
+.progress-container::-webkit-scrollbar-thumb:hover {
+    opacity: 1;
+}
+
+.progress-wrapper {
+    background: white;
+    padding: 1rem;
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.file-name {
+    margin-bottom: 0.5rem;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.progress-bar {
+    height: 4px;
+    background: var(--background-color);
+    border-radius: 2px;
+    overflow: hidden;
+    position: relative;
+}
+
+.progress-bar::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    background: var(--primary-color);
+    border-radius: 2px;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    margin-top: 0.25rem;
+}
+
+.upload-speed {
+    color: #666;
+    font-size: 0.75rem;
+    padding: 0.2rem 0.5rem;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+.file-success {
+    display: grid;
+    grid-template-columns: minmax(200px, 2fr) 100px 96px auto;
+    gap: 1.5rem;
+    align-items: center;
+    padding: 1.25rem;
+    background: white;
+    border-radius: 16px;
+    margin-bottom: 1rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.file-success:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: rgba(0, 122, 255, 0.1);
+}
+
+.file-name-wrapper {
+    position: relative;
+    padding: 0.5rem 0;
+}
+
+.file-name {
+    margin: 0;
+    font-size: 0.95rem;
+    color: #1a1a1a;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.file-success .file-size {
+    font-size: 0.85rem;
+    color: #666;
+    white-space: nowrap;
+}
+
+.file-success .qr-code {
+    width: 80px;
+    height: 80px;
+    padding: 6px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.file-success .qr-code img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+}
+
+.preview-button,
+.action-buttons .download-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    height: 38px;
+    min-width: 110px;
+    border: none;
+    text-decoration: none;
+}
+
+.preview-button {
+    background: rgba(0, 122, 255, 0.1);
+    color: var(--primary-color);
+}
+
+.action-buttons .download-link {
+    background: var(--primary-color);
+    color: white;
+}
+
+.preview-button:hover {
+    background: rgba(0, 122, 255, 0.15);
+    transform: translateY(-1px);
+}
+
+.action-buttons .download-link:hover {
+    background: #0066dd;
+    transform: translateY(-1px);
+}
+
+.preview-icon,
+.download-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .file-success {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .file-name-wrapper {
+        padding: 0;
+    }
+
+    .file-success .qr-code {
+        margin: 0 auto;
+    }
+
+    .action-buttons {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .preview-button,
+    .action-buttons .download-link {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+.drop-zone-content {
+    width: 100%;
+    text-align: center;
+}
+
+.reset-button {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    background: white;
+    color: var(--primary-color);
+    border: 1px solid rgba(0, 122, 255, 0.2);
+    border-radius: 12px;
+    padding: 0.625rem 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: all 0.3s ease;
+    z-index: 100;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
+.reset-button:hover {
+    background: rgba(0, 122, 255, 0.1);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.reset-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+}
+
+.file-name-wrapper:hover .file-name-tooltip {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.file-name-tooltip {
+    position: absolute;
+    top: -8px;
+    left: 0;
+    transform: translateY(-100%);
+    background: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease;
+    z-index: 10;
+    max-width: 300px;
+    word-wrap: break-word;
+}
+
+.file-name-wrapper:hover .file-name-tooltip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(-110%);
+}
+
+/* 预览模态框样式 */
+.preview-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.preview-content {
+    background: white;
+    border-radius: 12px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.preview-header {
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.preview-title {
+    font-size: 1.1rem;
+    color: #333;
+    font-weight: 500;
+}
+
+.close-preview {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 0.5rem;
+}
+
+.preview-body {
+    padding: 1rem;
+    overflow: auto;
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.preview-body img,
+.preview-body video {
+    max-width: 100%;
+    max-height: 70vh;
+    object-fit: contain;
+}
+
+.preview-body iframe {
+    width: 100%;
+    height: 70vh;
+    border: none;
+}
+
+.preview-body pre {
+    width: 100%;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    padding: 1rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+}
+
+.no-preview {
+    padding: 2rem;
+    text-align: center;
+    color: #666;
+}
+
+/* 修改操作按钮样式 */
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    align-items: center;
+}
+
+/* 统一按钮样式 */
+.preview-button,
+.action-buttons .download-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    border-radius: 15px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    height: 36px;
+    width: 100px;
+    background: rgba(0, 122, 255, 0.1);
+    border: none;
+    color: var(--primary-color);
+    text-decoration: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+.preview-button:hover,
+.action-buttons .download-link:hover {
+    background: rgba(0, 122, 255, 0.2);
+    transform: translateY(-1px);
+    text-decoration: none;
+}
+
+.preview-icon,
+.download-icon {
+    width: 16px;
+    height: 16px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+/* 响应式调整 */
+@media (max-width: 768px) {
+    .preview-content {
+        width: 95%;
+        height: 95vh;
+        max-height: none;
+    }
+    
+    .preview-body img,
+    .preview-body video,
+    .preview-body iframe {
+        max-height: 60vh;
+    }
+
+    .reset-button {
+        top: 0.75rem;
+        left: 0.75rem;
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+
+    .progress-container {
+        padding: 3.5rem 1rem 1rem 1rem;
+    }
+}
+
+/* 文本预览样式 */
+.text-preview {
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+.text-preview pre {
+    margin: 0;
+    padding: 1rem;
+    font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+    font-size: 14px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    color: #333;
+}
+
+/* PDF预览样式 */
+.preview-body iframe {
+    width: 100%;
+    height: 80vh;
+    border: none;
+    border-radius: 8px;
+    background: #fff;
+}
+
+/* 调整预览模态框的最大尺寸 */
+.preview-content {
+    width: 95%;
+    max-width: 1200px;
+    height: 90vh;
+    background: white;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+}
+
+.preview-body {
+    flex: 1;
+    padding: 1rem;
+    overflow: auto;
+} 
