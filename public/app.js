@@ -12,6 +12,7 @@ class FileUploader {
         this.fileInput = document.getElementById('fileInput');        // 文件输入框
         this.qrSection = document.getElementById('qrSection');        // 二维码区域
         this.fileInfo = document.getElementById('fileInfo');          // 文件信息显示区域
+        this.expirySelect = document.getElementById('expiryTime');    // 过期时间选择器
         
         // 上传队列管理
         this.uploadQueue = [];                    // 待上传文件队列
@@ -103,8 +104,11 @@ class FileUploader {
         });
 
         // 点击上传事件
-        this.dropZone.addEventListener('click', () => {
-            this.fileInput.click();
+        this.dropZone.addEventListener('click', (e) => {
+            // 如果点击的是 expiry-selector 或其子元素，不触发文件选择
+            if (!e.target.closest('.expiry-selector')) {
+                this.fileInput.click();
+            }
         });
 
         // 启用多文件选择
@@ -120,6 +124,22 @@ class FileUploader {
             e.stopPropagation(); // 防止触发 dropZone 的点击事件
             this.resetForNewUpload();
         });
+
+        // 为下拉框添加交互效果（添加空值检查）
+        if (this.expirySelect) {
+            this.expirySelect.addEventListener('change', (e) => {
+                e.stopPropagation();
+                // 可以在这里添加选择后的效果
+            });
+        }
+
+        // 防止事件冒泡（添加空值检查）
+        const expirySelector = document.querySelector('.expiry-selector');
+        if (expirySelector) {
+            expirySelector.addEventListener('mousedown', (e) => {
+                e.stopPropagation();
+            });
+        }
     }
 
     /**
@@ -187,7 +207,7 @@ class FileUploader {
      * @param {File} param0.file - 要上传的文件
      * @param {HTMLElement} param0.progressBar - 进度条元素
      * @param {HTMLElement} param0.progressText - 进度文本元素
-     * @param {HTMLElement} param0.progressWrapper - 进度条容器元素
+     * @param {HTMLElement} param0.progressWrapper - 进度��容器元素
      */
     async uploadFile({ file, progressBar, progressText, progressWrapper }) {
         try {
@@ -196,6 +216,12 @@ class FileUploader {
             const formData = new FormData();
             formData.append('files', encryptedFile);
             formData.append('isText', isText);
+            // 添加过期时间（添加空值检查）
+            if (this.expirySelect) {
+                formData.append('expiryHours', this.expirySelect.value);
+            } else {
+                formData.append('expiryHours', '24'); // 默认24小时
+            }
 
             // 创建 XMLHttpRequest 对象用于文件上传
             const xhr = new XMLHttpRequest();
@@ -409,6 +435,10 @@ class FileUploader {
      * @param {HTMLElement} progressWrapper - 进度条容器元素
      */
     showFileSuccess(fileInfo, progressWrapper) {
+        // 计算过期时间
+        const expiryDate = new Date(Date.now() + fileInfo.expiryHours * 60 * 60 * 1000);
+        const expiryString = expiryDate.toLocaleString();
+
         progressWrapper.innerHTML = `
             <div class="file-success">
                 <div class="file-name-wrapper">
@@ -416,8 +446,13 @@ class FileUploader {
                     ${fileInfo.originalName.length > 30 ? 
                         `<div class="file-name-tooltip">${fileInfo.originalName}</div>` : 
                         ''}
+                        (<span class="file-size">${this.formatFileSize(fileInfo.size)}</span>)
                 </div>
-                <div class="file-size">${this.formatFileSize(fileInfo.size)}</div>
+                <div class="file-info-group">
+                    <div class="expiry-info">
+                        过期时间：${expiryString}
+                    </div>
+                </div>
                 <div class="qr-code" id="qr-${encodeURIComponent(fileInfo.downloadUrl)}"></div>
                 <div class="action-buttons">
                     <button class="preview-button" onclick="event.stopPropagation(); window.previewFile('${fileInfo.previewUrl}', '${fileInfo.type}', '${fileInfo.originalName}')">
@@ -580,7 +615,7 @@ window.previewFile = async (previewUrl, fileType, fileName) => {
                 }
                 break;
             default:
-                previewContent = `<div class="no-preview">该文件类型暂不支持预览</div>`;
+                previewContent = `<div class="no-preview">该文件类型暂不支持预</div>`;
         }
 
         // 创建预览模态框

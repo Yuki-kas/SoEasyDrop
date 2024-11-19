@@ -22,6 +22,25 @@
                 <!-- 提示文本 -->
                 <p>拖拽文件到这里或点击上传</p>
                 <!-- 隐藏的文件输入框，支持多文件选择 -->
+                <div class="expiry-selector" onclick="event.stopPropagation()">
+                    <div class="expiry-wrapper">
+                        <label for="expiryTime" class="expiry-label">
+                            <svg class="expiry-icon" viewBox="0 0 24 24">
+                                <path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/>
+                            </svg>
+                            文件有效期
+                        </label>
+                        <select id="expiryTime" class="expiry-select">
+                            <option value="1">1小时</option>
+                            <option value="6">6小时</option>
+                            <option value="12">12小时</option>
+                            <option value="24" selected>24小时</option>
+                            <option value="48">2天</option>
+                            <option value="72">3天</option>
+                            <option value="168">7天</option>
+                        </select>
+                    </div>
+                </div>
                 <input type="file" id="fileInput" hidden multiple>
             </div>
             <!-- 重新上传按钮，初始隐藏 -->

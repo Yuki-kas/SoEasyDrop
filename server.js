@@ -61,25 +61,34 @@ app.post('/upload', upload.array('files', 10), (req, res) => {
         return res.status(400).json({ success: false, message: '没有文件上传' });
     }
 
+    // 获取过期时间（小时），默认24小时
+    const expiryHours = parseInt(req.body.expiryHours) || 24;
+    // 验证过期时间范围（1小时到7天）
+    if (expiryHours < 1 || expiryHours > 168) {
+        return res.status(400).json({ 
+            success: false, 
+            message: '过期时间必须在1小时到7天之间' 
+        });
+    }
+
     // 处理上传的文件
     const filesInfo = req.files.map(file => {
         const fileId = path.basename(file.filename, path.extname(file.originalname));
-        // 构建下载和预览 URL
         const downloadUrl = `${req.protocol}://${req.get('host')}/download/${fileId}`;
         const previewUrl = `${req.protocol}://${req.get('host')}/preview/${fileId}`;
         const fileType = getFileType(file.originalname);
 
-        // 设置 24 小时后自动删除文件
+        // 设置自定义过期时间
         setTimeout(() => {
             fs.unlink(file.path, (err) => {
                 if (err && isDev) console.error('Error deleting file:', err);
             });
-        }, 24 * 60 * 60 * 1000);
+        }, expiryHours * 60 * 60 * 1000);
 
         // 开发环境下记录上传信息
         if (isDev) {
             console.log(`File uploaded: ${file.originalname} (${file.size} bytes)`);
-            console.log(`Type: ${fileType}`);
+            console.log(`Type: ${fileType}, Expiry: ${expiryHours} hours`);
         }
 
         // 返回文件信息
@@ -89,7 +98,8 @@ app.post('/upload', upload.array('files', 10), (req, res) => {
             type: fileType,
             downloadUrl,
             previewUrl,
-            mimeType: file.mimetype
+            mimeType: file.mimetype,
+            expiryHours  // 添加过期时间信息
         };
     });
 

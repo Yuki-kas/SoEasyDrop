@@ -320,6 +320,9 @@ body {
 
     .file-name-wrapper {
         padding: 0;
+        overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     }
 
     .file-success .qr-code {
@@ -511,6 +514,7 @@ body {
     display: flex;
     gap: 0.5rem;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 /* 统一按钮样式 */
@@ -661,4 +665,120 @@ body {
     width: 100%;
     max-height: 70vh;
     border-radius: 8px;
+}
+
+/* 过期时间选择器容器 */
+.expiry-selector {
+    position: relative;
+    z-index: 2;
+    margin-top: 1.5rem;
+    padding: 0.75rem;
+}
+
+/* 过期时间选择器包装器 */
+.expiry-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.75rem;
+}
+
+/* 标签样式 */
+.expiry-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    font-size: 0.95rem;
+    font-weight: 500;
+    white-space: nowrap;
+    user-select: none;
+}
+
+/* 过期图标样式 */
+.expiry-label .expiry-icon {
+    width: 18px;
+    height: 18px;
+    fill: var(--primary-color);
+}
+
+/* 下拉框样式 */
+.expiry-select {
+    appearance: none;
+    -webkit-appearance: none;
+    padding: 0.5rem 2rem 0.5rem 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background: white;
+    color: #333;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+/* 下拉框悬停和焦点状态 */
+.expiry-select:hover,
+.expiry-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.1);
+    outline: none;
+}
+
+/* 下拉箭头图标 */
+.select-arrow {
+    position: absolute;
+    right: 0.75rem;
+    width: 18px;
+    height: 18px;
+    fill: #666;
+    pointer-events: none;
+    transition: transform 0.3s ease;
+}
+
+/* 下拉框展开时箭头旋转 */
+.expiry-select:focus + .select-arrow {
+    transform: rotate(180deg);
+}
+
+/* 移动端适配 */
+@media (max-width: 768px) {
+    .expiry-selector {
+        margin-top: 1rem;
+        padding: 0.5rem;
+    }
+
+    .expiry-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .expiry-select {
+        width: 100%;
+        min-width: 200px;
+    }
+}
+
+/* 下拉选项样式（仅支持 Webkit 浏览器） */
+.expiry-select option {
+    padding: 0.5rem;
+    font-size: 0.95rem;
+}
+
+/* 添加动画效果 */
+@keyframes selectFocus {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+    100% { transform: scale(1); }
+}
+
+.expiry-select:focus {
+    animation: selectFocus 0.3s ease;
 } 
+
+.expiry-info {
+    font-size: 0.65rem;
+    color: #666;
+}
