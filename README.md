@@ -1,6 +1,6 @@
 # SoEasyDrop - 简易文件传输工具
 
-一个安全、高效的跨设备文件传输工具，支持拖拽上传和扫码下载。采用现代化的UI设计，提供流畅的用户体验。
+该项目源于我每次需要在PC、Android、iOS上互传文件时翻来覆去的找数据线而诞生的一个想法，本人是一名前端程序员，项目实现比较简单，过段时间会部署上线，欢迎大家使用。
 
 ## 功能特点
 - 多文件同时上传（最多10个文件）
@@ -16,24 +16,29 @@
 
 ## 支持的文件类型和预览
 ### 图片
-- 格式：jpg, jpeg, png, gif, webp, bmp
+- 格式：jpg, jpeg, png, gif, webp, bmp, svg, ico
 - 功能：直接预览、缩放显示
 
-### 音频
-- 格式：mp3, wav, ogg, m4a, aac
-- 功能：在线播放、音频控制
-
 ### 视频
-- 格式：mp4, webm, ogg, mov
+- 格式：mp4, webm, ogg, mov, avi, mkv, flv
 - 功能：在线播放、视频控制
 
-### 文档
-- 格式：pdf, txt, md
-- 功能：在线阅读、文本格式化
+### 音频
+- 格式：mp3, wav, ogg, m4a, aac, flac, wma
+- 功能：在线播放、音频控制
 
-### 其他文本文件
-- 格式：js, css, html, json
-- 功能：语法高亮显示（计划中）
+### 文本和代码
+- 文本格式：txt, md, json, xml, yaml, yml, ini, conf
+- 代码格式：js, ts, py, java, cpp, c, cs, php, rb, go, rs, swift, kt, jsx, tsx
+- 功能：语法高亮显示、自动识别编程语言
+
+### 文档
+- Office格式：doc, docx, xls, xlsx, ppt, pptx
+- 其他格式：pdf, odt, ods, odp
+- 功能：
+  - PDF：在线阅读
+  - Office文档：通过Office Online Viewer在线预览
+  - 支持文档下载
 
 ## 技术实现
 ### 前端技术
@@ -43,6 +48,7 @@
 - FileReader API
 - Fetch API
 - CSS3 动画和过渡效果
+- highlight.js（代码高亮）
 
 ### 后端技术
 - Node.js + Express
@@ -111,7 +117,7 @@ npm install
 
 ## 后续优化计划
 - [x] 支持设置自定义过期时间
-- [ ] 支持更多文件格式的预览
+- [x] 支持更多文件格式的预览
 - [ ] 优化移动端适配
 - [ ] 添加文件压缩功能
 

@@ -207,7 +207,7 @@ class FileUploader {
      * @param {File} param0.file - 要上传的文件
      * @param {HTMLElement} param0.progressBar - 进度条元素
      * @param {HTMLElement} param0.progressText - 进度文本元素
-     * @param {HTMLElement} param0.progressWrapper - 进度��容器元素
+     * @param {HTMLElement} param0.progressWrapper - 进度��元素
      */
     async uploadFile({ file, progressBar, progressText, progressWrapper }) {
         try {
@@ -568,14 +568,14 @@ window.previewFile = async (previewUrl, fileType, fileName) => {
         let previewContent = '';
         let mediaType = '';
 
-        // 根据文件类型生成预览内容
         switch (fileType) {
             case 'image':
-                mediaType = 'image/jpeg';
+                mediaType = getMimeType(fileName, 'image');
                 previewContent = `<img src="${createObjectURL(decryptedData, mediaType)}" alt="${fileName}">`;
                 break;
+
             case 'audio':
-                mediaType = getAudioMimeType(fileName);
+                mediaType = getMimeType(fileName, 'audio');
                 previewContent = `
                     <div class="audio-preview">
                         <audio controls>
@@ -585,8 +585,9 @@ window.previewFile = async (previewUrl, fileType, fileName) => {
                         <p class="audio-name">${fileName}</p>
                     </div>`;
                 break;
+
             case 'video':
-                mediaType = getVideoMimeType(fileName);
+                mediaType = getMimeType(fileName, 'video');
                 previewContent = `
                     <div class="video-preview">
                         <video controls>
@@ -595,6 +596,7 @@ window.previewFile = async (previewUrl, fileType, fileName) => {
                         </video>
                     </div>`;
                 break;
+
             case 'pdf':
                 mediaType = 'application/pdf';
                 previewContent = `
@@ -602,20 +604,50 @@ window.previewFile = async (previewUrl, fileType, fileName) => {
                         <p>您的浏览器不支持PDF预览，<a href="${createObjectURL(decryptedData, mediaType)}" target="_blank">点击下载</a></p>
                     </iframe>`;
                 break;
+
             case 'text':
+            case 'code':
                 try {
                     const decoder = new TextDecoder('utf-8', { fatal: true });
                     const text = decoder.decode(decryptedData);
+                    const language = getLanguageFromFileName(fileName);
+                    const highlightedCode = language ? 
+                        hljs.highlight(text, { language }).value : 
+                        hljs.highlightAuto(text).value;
+                    
                     previewContent = `
-                        <div class="text-preview">
-                            <pre>${escapeHtml(text)}</pre>
+                        <div class="code-preview">
+                            <div class="code-header">
+                                <span class="file-type">${language || '文本文件'}</span>
+                                <span class="file-name">${fileName}</span>
+                            </div>
+                            <pre><code class="hljs ${language}">${highlightedCode}</code></pre>
                         </div>`;
                 } catch (error) {
                     throw new Error('文本解码失败，可能不是有效的文本文件');
                 }
                 break;
+
+            case 'document':
+                // 对于 Office 文档，提供使用 Office Online Viewer 的链接
+                const viewerUrl = `https://view.officeapps.live.com/op/view.aspx?src=${encodeURIComponent(previewUrl)}`;
+                previewContent = `
+                    <div class="document-preview">
+                        <iframe src="${viewerUrl}" frameborder="0">
+                            <p>此文档类型需要使用 Microsoft Office Online Viewer 预览</p>
+                        </iframe>
+                    </div>`;
+                break;
+
             default:
-                previewContent = `<div class="no-preview">该文件类型暂不支持预</div>`;
+                previewContent = `
+                    <div class="no-preview">
+                        <svg class="no-preview-icon" viewBox="0 0 24 24">
+                            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+                        </svg>
+                        <p>该文件类型暂不支持预览</p>
+                        <p class="file-info">文件类型: ${fileName.split('.').pop().toUpperCase()}</p>
+                    </div>`;
         }
 
         // 创建预览模态框
@@ -755,34 +787,75 @@ function base64ToArrayBuffer(base64) {
 }
 
 /**
- * 获取音频文件的MIME类型
+ * 获取文件的 MIME 类型
  * @param {string} fileName - 文件名
+ * @param {string} type - 文件类型
  * @returns {string} MIME类型
  */
-function getAudioMimeType(fileName) {
+function getMimeType(fileName, type) {
     const ext = fileName.split('.').pop().toLowerCase();
     const mimeTypes = {
-        'mp3': 'audio/mpeg',
-        'wav': 'audio/wav',
-        'ogg': 'audio/ogg',
-        'm4a': 'audio/mp4',
-        'aac': 'audio/aac'
+        image: {
+            jpg: 'image/jpeg',
+            jpeg: 'image/jpeg',
+            png: 'image/png',
+            gif: 'image/gif',
+            webp: 'image/webp',
+            svg: 'image/svg+xml',
+            ico: 'image/x-icon'
+        },
+        video: {
+            mp4: 'video/mp4',
+            webm: 'video/webm',
+            ogg: 'video/ogg',
+            mov: 'video/quicktime',
+            avi: 'video/x-msvideo',
+            mkv: 'video/x-matroska',
+            flv: 'video/x-flv'
+        },
+        audio: {
+            mp3: 'audio/mpeg',
+            wav: 'audio/wav',
+            ogg: 'audio/ogg',
+            m4a: 'audio/mp4',
+            aac: 'audio/aac',
+            flac: 'audio/flac',
+            wma: 'audio/x-ms-wma'
+        }
     };
-    return mimeTypes[ext] || 'audio/mpeg';
+    return mimeTypes[type]?.[ext] || `${type}/${ext}`;
 }
 
 /**
- * 获取视频文件的MIME类型
+ * 根据文件名获取编程语言
  * @param {string} fileName - 文件名
- * @returns {string} MIME类型
+ * @returns {string} 编程语言
  */
-function getVideoMimeType(fileName) {
+function getLanguageFromFileName(fileName) {
     const ext = fileName.split('.').pop().toLowerCase();
-    const mimeTypes = {
-        'mp4': 'video/mp4',
-        'webm': 'video/webm',
-        'ogg': 'video/ogg',
-        'mov': 'video/quicktime'
+    const languageMap = {
+        js: 'javascript',
+        ts: 'typescript',
+        py: 'python',
+        java: 'java',
+        cpp: 'cpp',
+        c: 'c',
+        cs: 'csharp',
+        php: 'php',
+        rb: 'ruby',
+        go: 'go',
+        rs: 'rust',
+        swift: 'swift',
+        kt: 'kotlin',
+        jsx: 'javascript',
+        tsx: 'typescript',
+        xml: 'xml',
+        yaml: 'yaml',
+        yml: 'yaml',
+        json: 'json',
+        md: 'markdown',
+        sh: 'bash',
+        bat: 'batch'
     };
-    return mimeTypes[ext] || 'video/mp4';
+    return languageMap[ext];
 } 

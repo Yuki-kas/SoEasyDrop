@@ -17,7 +17,10 @@ if (isDev) {
     });
 }
 
-// 配置文件存储选项
+/**
+ * 配置文件存储选项
+ * 设置文件保存目录和文件命名规则
+ */
 const storage = multer.diskStorage({
     destination: './uploads/',  // 文件保存目录
     filename: function(req, file, cb) {
@@ -26,7 +29,10 @@ const storage = multer.diskStorage({
     }
 });
 
-// 配置文件上传中间件
+/**
+ * 配置文件上传中间件
+ * 设置存储选项和文件大小限制
+ */
 const upload = multer({ 
     storage: storage,
     limits: {
@@ -40,18 +46,24 @@ app.use(express.static('public'));
 // 文件类型判断函数
 function getFileType(filename) {
     const ext = path.extname(filename).toLowerCase();
-    // 定义支持的文件类型扩展名
-    const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp'];
-    const videoExts = ['.mp4', '.webm', '.ogg'];
-    const audioExts = ['.mp3', '.wav', '.ogg'];
-    const textExts = ['.txt', '.md', '.js', '.css', '.html', '.json'];
+    // 扩展支持的文件类型
+    const imageExts = ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.bmp', '.svg', '.ico'];
+    const videoExts = ['.mp4', '.webm', '.ogg', '.mov', '.avi', '.mkv', '.flv'];
+    const audioExts = ['.mp3', '.wav', '.ogg', '.m4a', '.aac', '.flac', '.wma'];
+    const textExts = ['.txt', '.md', '.js', '.css', '.html', '.json', '.xml', '.yaml', '.yml', '.ini', '.conf', '.sh', '.bat'];
+    const codeExts = ['.py', '.java', '.cpp', '.c', '.cs', '.php', '.rb', '.go', '.rs', '.swift', '.kt', '.ts', '.jsx', '.tsx'];
+    const docExts = ['.pdf', '.doc', '.docx', '.xls', '.xlsx', '.ppt', '.pptx', '.odt', '.ods', '.odp'];
     
     // 根据扩展名返回文件类型
     if (imageExts.includes(ext)) return 'image';
-    if (ext === '.pdf') return 'pdf';
     if (videoExts.includes(ext)) return 'video';
     if (audioExts.includes(ext)) return 'audio';
     if (textExts.includes(ext)) return 'text';
+    if (codeExts.includes(ext)) return 'code';
+    if (docExts.includes(ext)) {
+        if (ext === '.pdf') return 'pdf';
+        return 'document';
+    }
     return 'other';
 }
 
@@ -149,7 +161,10 @@ if (!fs.existsSync('./uploads')){
     fs.mkdirSync('./uploads');
 }
 
-// 全局错误处理中间件
+/**
+ * 全局错误处理中间件
+ * 处理服务器端错误，根据环境返回不同的错误信息
+ */
 app.use((err, req, res, next) => {
     if (isDev) {
         console.error(err.stack);
